@@ -1,9 +1,12 @@
 package com.arclights.adventofcode
 
 import com.arclights.adventofcode.Day2.part1
+import com.arclights.adventofcode.Day2.part2
+import kotlin.math.max
 
 fun main() {
     part1()
+    part2()
 }
 
 object Day2 {
@@ -12,6 +15,15 @@ object Day2 {
         val games = parse(input)
         val result = filterValidGames(Bag(12, 13, 14), games)
             .map(Game::id)
+            .sum()
+        println(result)
+    }
+
+    fun part2() {
+        val input = read("Day2.txt")
+        val games = parse(input)
+        val result = games
+            .map(::findPower)
             .sum()
         println(result)
     }
@@ -25,6 +37,15 @@ object Day2 {
 
     private fun isValidDraw(bag: Bag, draw: Draw) =
         draw.red <= bag.red && draw.green <= bag.green && draw.blue <= bag.blue
+
+    private fun findPower(game: Game) = findMinimumBag(game.draws).let { it.red * it.green * it.blue }
+    private fun findMinimumBag(draws: List<Draw>) = draws.fold(Bag(0, 0, 0)) { bag, draw ->
+        Bag(
+            max(bag.red, draw.red),
+            max(bag.green, draw.green),
+            max(bag.blue, draw.blue)
+        )
+    }
 
     private fun parse(input: List<String>): List<Game> = input
         .map { line ->
