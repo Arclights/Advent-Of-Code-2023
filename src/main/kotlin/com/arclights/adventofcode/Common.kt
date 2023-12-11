@@ -1,3 +1,3 @@
 package com.arclights.adventofcode
 
-data class Point(val x: Int, val y: Int)
+data class Point(val x: Long, val y: Long)
