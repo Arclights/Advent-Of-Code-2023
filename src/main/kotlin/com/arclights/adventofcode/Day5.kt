@@ -1,17 +1,24 @@
 package com.arclights.adventofcode
 
 import com.arclights.adventofcode.Day5.part1
+import com.arclights.adventofcode.Day5.part2
 
 fun main() {
     part1()
+    part2()
 }
 
 object Day5 {
     fun part1() {
         val (seeds, maps) = parse("Day5.txt")
-        println(seeds)
-        println(maps)
         val result = seeds.minOfOrNull { translateSeedToLocation(it, maps) }
+        println(result)
+    }
+
+    fun part2(){
+        val (seeds, maps) = parse("Day5.txt")
+        val rangedSeeds = seeds.windowed(2, step = 2).map { (rangeStart,rangeLength)->rangeStart ..< rangeStart+rangeLength }
+        val result = rangedSeeds.mapNotNull { range -> range.minOfOrNull { translateSeedToLocation(it, maps) } }.min()
         println(result)
     }
 
